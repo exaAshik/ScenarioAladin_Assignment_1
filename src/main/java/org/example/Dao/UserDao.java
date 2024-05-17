@@ -31,4 +31,55 @@ public class UserDao {
         return null;
     }
 
+    public User updateUser(User user){
+        try {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            session.merge(user);
+            transaction.commit();
+            session.close();
+            return user;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User getUserById(Integer id){
+        try {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            User user = session.get(User.class, id);
+            transaction.commit();
+            session.close();
+            return user;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public boolean deleteUser(User user){
+
+        try {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            session.remove(user);
+            transaction.commit();
+            session.close();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+
+
+
 }

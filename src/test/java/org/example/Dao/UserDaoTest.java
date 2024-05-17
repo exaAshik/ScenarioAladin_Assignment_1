@@ -24,4 +24,31 @@ public class UserDaoTest extends TestCase {
         User user1 = userDao.createUser(user);
         assertNotNull(user1);
     }
+
+    public void testUpdateUser(){
+        User user = new User();
+        user.setId(1);
+        user.setName("imran");
+        user.setEmail("imran@exabyting.com");
+        UserDao userDao  = new UserDao(sessionFactory);
+        User user1 = userDao.updateUser(user);
+        assertNotNull(user1);
+
+    }
+
+    public void testGetUserById(){
+        UserDao userDao = new UserDao(sessionFactory);
+        User userById = userDao.getUserById(1);
+        assertNotNull(userById);
+    }
+
+    public void testDeleteUserById(){
+        UserDao userDao = new UserDao(sessionFactory);
+        User userById = userDao.getUserById(1);
+        boolean b = userDao.deleteUser(userById);
+        assertTrue(true);
+    }
+
+
+
 }
