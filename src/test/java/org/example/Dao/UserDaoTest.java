@@ -36,16 +36,20 @@ public class UserDaoTest extends TestCase {
 
     }
 
+
     public void testGetUserById(){
+        testCreateUser();
+        testUpdateUser();
         UserDao userDao = new UserDao(sessionFactory);
         User userById = userDao.getUserById(1);
         assertNotNull(userById);
     }
 
     public void testDeleteUserById(){
+        testCreateUser();
+        testUpdateUser();
         UserDao userDao = new UserDao(sessionFactory);
-        User userById = userDao.getUserById(1);
-        boolean b = userDao.deleteUser(userById);
+        boolean b = userDao.deleteUser(1);
         assertTrue(true);
     }
 

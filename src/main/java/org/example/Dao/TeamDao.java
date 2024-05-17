@@ -1,8 +1,9 @@
 package org.example.Dao;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.example.Entities.Team;
 import org.example.Entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,51 +11,49 @@ import org.hibernate.Transaction;
 
 @Data
 @AllArgsConstructor
-public class UserDao {
+public class TeamDao {
 
     public SessionFactory sessionFactory;
 
-
-
-    public User createUser(User user){
+    public Team createTeam(Team team){
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            session.persist(user);
+            session.persist(team);
             transaction.commit();
             session.close();
-            return user;
+            return team;
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
     }
 
-    public User updateUser(User user){
+    public Team updateTeam(Team team){
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            session.merge(user);
+            session.merge(team);
             transaction.commit();
             session.close();
-            return user;
+            return team;
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
     }
 
-    public User getUserById(Integer id){
+    public Team getTeamById(Integer id){
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            User user = session.get(User.class, id);
+            Team team = session.get(Team.class, id);
             transaction.commit();
             session.close();
-            return user;
+            return team;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -62,14 +61,14 @@ public class UserDao {
 
     }
 
-    public boolean deleteUser(Integer userId){
+    public boolean deleteTeam(Integer teamId){
 
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            User user = session.get(User.class, userId);
-            session.remove(user);
+            Team team = session.get(Team.class, teamId);
+            session.remove(team);
             transaction.commit();
             session.close();
             return true;
@@ -79,7 +78,6 @@ public class UserDao {
         return false;
 
     }
-
 
 
 
