@@ -17,9 +17,11 @@ public class RoleDaoTest extends TestCase {
 
     public void testCreateRole() {
         Role role = new Role();
-        role.setRoleName("Normal");
+        role.setRoleName("Lead");
         RoleDao roleDao = new RoleDao(sessionFactory);
         Role role1 = roleDao.createRole(role);
+        System.out.println(role1);
+        System.out.println(role1.getId());
         assertNotNull(role1);
     }
 

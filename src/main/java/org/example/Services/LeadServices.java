@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface LeadServices {
 
-    Leave Approved(Leave leave,Integer leadId);
+    Leave Decision(Leave leave,Integer leadId);
     List<Attendence> attendenceReportByUser(Integer userId,Integer leadId);
 }

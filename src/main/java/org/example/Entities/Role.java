@@ -1,6 +1,8 @@
 package org.example.Entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +20,7 @@ import java.util.Set;
 public class Role extends BaseEntity{
 
     private String roleName;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles",
+    cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<User>users = new HashSet<>();
 }

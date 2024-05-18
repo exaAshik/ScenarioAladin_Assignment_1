@@ -22,8 +22,9 @@ public class Leave extends BaseEntity{
     private LocalDate leaveDate;
     private String leaveReason;
     private String leaveStatus;
-    private Instant aprrovedAt;
-    private Integer approvedBy;
+    private String decisionReason;
+    private Instant decisionAt;
+    private Integer decisionBy;
 
     @OneToOne
     @JoinColumn(name = "user_id")

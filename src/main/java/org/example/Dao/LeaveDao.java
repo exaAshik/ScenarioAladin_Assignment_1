@@ -1,12 +1,19 @@
 package org.example.Dao;
 
+import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.example.Entities.Leave;
 import org.example.Entities.Role;
+import org.example.Entities.Team;
+import org.example.Entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+
+import java.util.List;
 
 
 @Data
@@ -60,6 +67,45 @@ public class LeaveDao {
             e.printStackTrace();
         }
         return null;
+
+    }
+
+    public List<Leave>getLeavesByUserId(Integer userId){
+
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        Query<Leave> query = session.createQuery("FROM user_leave WHERE user_id = :userId", Leave.class);
+        query.setParameter("user_id",userId);
+        List<Leave> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList;
+
+    }
+
+    public List<Leave>getleavesofUserTeam(Integer userId){
+
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+
+        User user = session.get(User.class, userId);
+        Integer teamId = user.getTeam().getId();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Leave> query = criteriaBuilder.createQuery(Leave.class);
+
+        Root<Leave> leaveRoot = query.from(Leave.class);
+
+        Join<Leave, User> userJoin = leaveRoot.join("user", JoinType.INNER);
+        Join<User, Team> teamJoin = userJoin.join("team", JoinType.INNER);
+
+        query.select(leaveRoot)
+                .where(criteriaBuilder.notEqual(teamJoin.get("id"), teamId));
+        List<Leave> resultList = session.createQuery(query).getResultList();
+
+        return resultList;
+
 
     }
 
