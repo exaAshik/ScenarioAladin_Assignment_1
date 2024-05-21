@@ -20,8 +20,8 @@ public class ImplementationNormal implements NormalServices {
 
     public SessionFactory sessionFactory;
 
-    ImplementationNormal(){
-        this.sessionFactory=HibernateUtils.getsessionFactory();
+    ImplementationNormal(SessionFactory sessionFactory){
+        this.sessionFactory=sessionFactory;
     }
 
     @Override

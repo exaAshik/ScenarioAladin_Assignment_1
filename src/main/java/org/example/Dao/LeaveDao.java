@@ -28,7 +28,7 @@ public class LeaveDao {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            session.persist(leave);
+            session.saveOrUpdate(leave);
             transaction.commit();
             session.close();
             return leave;
@@ -75,8 +75,8 @@ public class LeaveDao {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        Query<Leave> query = session.createQuery("FROM user_leave WHERE user_id = :userId", Leave.class);
-        query.setParameter("user_id",userId);
+        Query<Leave> query = session.createQuery("FROM user_leave WHERE user.id = :userId", Leave.class);
+        query.setParameter("userId",userId);
         List<Leave> resultList = query.getResultList();
         transaction.commit();
         session.close();
@@ -101,7 +101,7 @@ public class LeaveDao {
         Join<User, Team> teamJoin = userJoin.join("team", JoinType.INNER);
 
         query.select(leaveRoot)
-                .where(criteriaBuilder.notEqual(teamJoin.get("id"), teamId));
+                .where(criteriaBuilder.equal(teamJoin.get("id"), teamId));
         List<Leave> resultList = session.createQuery(query).getResultList();
 
         return resultList;

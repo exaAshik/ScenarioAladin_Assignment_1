@@ -7,9 +7,9 @@ import java.util.Set;
 public class Authorize {
 
     public static boolean isAutorize(Set<Role>roles){
-
+        System.out.println(roles);
         for(Role role:roles){
-            if(role.getRoleName().equalsIgnoreCase("Normal")||
+            if(role.getRoleName().equalsIgnoreCase("Lead")||
                     role.getRoleName().equals("Admin")){
                 return true;
             }

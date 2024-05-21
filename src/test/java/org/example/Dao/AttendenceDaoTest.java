@@ -1,6 +1,7 @@
 package org.example.Dao;
 
 import junit.framework.TestCase;
+import org.example.AppConstant;
 import org.example.Entities.Attendence;
 import org.example.util.HibernateUtils;
 import org.hibernate.SessionFactory;
@@ -26,7 +27,7 @@ public class AttendenceDaoTest extends TestCase {
     public void testUpdateAttendence() {
         AttendenceDao attendenceDao = new AttendenceDao(sessionFactory);
         Attendence attendence = new Attendence();
-        attendence.setId(1);
+        attendence.setId(AppConstant.userId);
         attendence.setClockIn(Instant.now());
         Attendence attendence1 = attendenceDao.updateAttendence(attendence);
         assertNotNull(attendence1);
@@ -35,14 +36,14 @@ public class AttendenceDaoTest extends TestCase {
     public void testGetAttendenceById() {
         testCreateAttendence();
         AttendenceDao attendenceDao = new AttendenceDao(sessionFactory);
-        Attendence attendence1 = attendenceDao.getAttendenceById(1);
+        Attendence attendence1 = attendenceDao.getAttendenceById(AppConstant.userId);
         assertNotNull(attendence1);
     }
 
     public void testDeleteAttendence() {
         testCreateAttendence();
         AttendenceDao attendenceDao = new AttendenceDao(sessionFactory);
-        boolean b = attendenceDao.deleteAttendence(1);
+        boolean b = attendenceDao.deleteAttendence(AppConstant.userId);
         assertTrue(true);
     }
 }

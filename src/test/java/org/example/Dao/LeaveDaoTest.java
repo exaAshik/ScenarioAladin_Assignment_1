@@ -1,6 +1,7 @@
 package org.example.Dao;
 
 import junit.framework.TestCase;
+import org.example.AppConstant;
 import org.example.Entities.Leave;
 import org.example.Entities.Role;
 import org.example.util.HibernateUtils;
@@ -17,7 +18,7 @@ public class LeaveDaoTest extends TestCase {
 
     public void testCreateLeave() {
         Leave leave = new Leave();
-        leave.setLeaveReason("illl");
+        leave.setLeaveReason(AppConstant.leaveReason);
         LeaveDao leaveDao = new LeaveDao(sessionFactory);
         Leave leave1 = leaveDao.createLeave(leave);
         assertNotNull(leave1);
@@ -27,7 +28,7 @@ public class LeaveDaoTest extends TestCase {
         testCreateLeave();
         Leave leave = new Leave();
         leave.setId(1);
-        leave.setLeaveReason("illl");
+        leave.setLeaveReason(AppConstant.leaveReason);
         LeaveDao leaveDao = new LeaveDao(sessionFactory);
         Leave leave1 = leaveDao.updateLeave(leave);
         assertNotNull(leave1);
@@ -36,7 +37,7 @@ public class LeaveDaoTest extends TestCase {
     public void testGetLeaveById() {
         testCreateLeave();
         LeaveDao leaveDao = new LeaveDao(sessionFactory);
-        Leave leaveById = leaveDao.getLeaveById(1);
+        Leave leaveById = leaveDao.getLeaveById(AppConstant.userId);
         assertNotNull(leaveById);
     }
 
@@ -44,7 +45,7 @@ public class LeaveDaoTest extends TestCase {
 
         testCreateLeave();
         LeaveDao leaveDao = new LeaveDao(sessionFactory);
-        boolean b = leaveDao.deleteLeave(1);
+        boolean b = leaveDao.deleteLeave(AppConstant.leaveId);
         assertTrue(true);
     }
 }

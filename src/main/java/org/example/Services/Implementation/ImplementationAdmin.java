@@ -1,5 +1,6 @@
 package org.example.Services.Implementation;
 
+import org.example.AppConstant;
 import org.example.Dao.LeaveDao;
 import org.example.Dao.UserDao;
 import org.example.Entities.Leave;
@@ -29,7 +30,7 @@ public class ImplementationAdmin implements Admin {
         UserDao userDao = new UserDao(sessionFactory);
         LeaveDao leaveDao = new LeaveDao(sessionFactory);
         boolean authorize = Authorize.isAutorize(userDao.getUserById(AdminId).getRoles());
-        if(!authorize) throw new RuntimeException("you are not authorized");
+        if(!authorize) throw new RuntimeException(AppConstant.authorizedMessage);
         return leaveDao.updateLeave(leave);
     }
 }

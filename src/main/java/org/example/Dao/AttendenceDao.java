@@ -72,8 +72,8 @@ public class AttendenceDao {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            Query<Attendence> query = session.createQuery("FROM Attendence WHERE user_id = :user_id AND date = :date", Attendence.class);
-            query.setParameter("user_id",userId);
+            Query<Attendence> query = session.createQuery("FROM Attendence WHERE user.id = :userId AND date = :date", Attendence.class);
+            query.setParameter("userId",userId);
             query.setParameter("date",date);
             return query.uniqueResult();
 
@@ -89,8 +89,8 @@ public class AttendenceDao {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        String hql = "SELECT a FROM Attendance a " +
-                "JOIN FETCH a.user u " +
+        String hql = "SELECT a FROM Attendence a " +
+                "JOIN a.user u " +
                 "WHERE u.id = :userId " +
                 "AND YEAR(a.date) = :year " +
                 "AND MONTH(a.date) = :month";
@@ -98,7 +98,7 @@ public class AttendenceDao {
         Query<Attendence> query = session.createQuery(hql, Attendence.class);
         query.setParameter("userId", userId);
         query.setParameter("year", year);
-        query.setParameter("month", month);
+        query.setParameter("month",month);
         return query.getResultList();
 
     }

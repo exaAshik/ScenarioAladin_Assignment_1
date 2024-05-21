@@ -1,5 +1,6 @@
 package org.example.Services.Implementation;
 
+import org.example.AppConstant;
 import org.example.Dao.AttendenceDao;
 import org.example.Dao.LeaveDao;
 import org.example.Dao.UserDao;
@@ -20,8 +21,8 @@ public class ImplementationLead implements LeadServices {
 
     public SessionFactory sessionFactory;
 
-    ImplementationLead(){
-        this.sessionFactory = HibernateUtils.getsessionFactory();
+    ImplementationLead(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
     }
 
 
@@ -32,7 +33,8 @@ public class ImplementationLead implements LeadServices {
         User userById = userDao.getUserById(leadId);
         Set<Role> roles = userById.getRoles();
         boolean authorize = Authorize.isAutorize(roles);
-        if(!authorize) throw new RuntimeException("you are not authorize for approve leave");
+        System.out.println(authorize);
+        if(!authorize) throw new RuntimeException(AppConstant.authorizedMessage);
         return leaveDao.updateLeave(leave);
     }
 
@@ -45,7 +47,7 @@ public class ImplementationLead implements LeadServices {
         User userById = userDao.getUserById(leadId);
 
         boolean authorize = Authorize.isAutorize(userById.getRoles());
-        if(!authorize) throw new RuntimeException("you are not authorize for report service");
+        if(!authorize) throw new RuntimeException(AppConstant.authorizedMessage);
         int year = 2024;
         int month =5;
 

@@ -1,6 +1,7 @@
 package org.example.Dao;
 
 import junit.framework.TestCase;
+import org.example.AppConstant;
 import org.example.Entities.Role;
 import org.example.Entities.Team;
 import org.example.util.HibernateUtils;
@@ -17,18 +18,16 @@ public class RoleDaoTest extends TestCase {
 
     public void testCreateRole() {
         Role role = new Role();
-        role.setRoleName("Lead");
+        role.setRoleName(AppConstant.leadRole);
         RoleDao roleDao = new RoleDao(sessionFactory);
         Role role1 = roleDao.createRole(role);
-        System.out.println(role1);
-        System.out.println(role1.getId());
         assertNotNull(role1);
     }
 
     public void testUpdateRole() {
         Role role = new Role();
         role.setId(1);
-        role.setRoleName("Normal");
+        role.setRoleName(AppConstant.adminRole);
         RoleDao roleDao = new RoleDao(sessionFactory);
         Role role1 = roleDao.updateRole(role);
         assertNotNull(role1);
@@ -37,14 +36,14 @@ public class RoleDaoTest extends TestCase {
     public void testGetRoleById() {
         testCreateRole();
         RoleDao roleDao = new RoleDao(sessionFactory);
-        Role roleById = roleDao.getRoleById(1);
+        Role roleById = roleDao.getRoleById(AppConstant.roleId);
         assertNotNull(roleById);
     }
 
     public void testDeleteRole() {
         testCreateRole();
         RoleDao roleDao = new RoleDao(sessionFactory);
-        roleDao.deleteRole(1);
+        roleDao.deleteRole(AppConstant.roleId);
         assertTrue(true);
     }
 }

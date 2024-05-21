@@ -1,6 +1,7 @@
 package org.example.Dao;
 
 import junit.framework.TestCase;
+import org.example.AppConstant;
 import org.example.Entities.Role;
 import org.example.Entities.Team;
 import org.example.Entities.User;
@@ -24,14 +25,23 @@ public class UserDaoTest extends TestCase {
     public void testCreateUser() {
         User user = new User();
         user.setEmployeeId(UUID.randomUUID().toString());
-        user.setName("Shams");
-        user.setEmail("shamas@exabyting.com");
-        user.setPassword(PasswordHashing.hashPassword("shams"));
-        user.setPosition("Enginner manager");
+        user.setName("ashik");
+        user.setEmail("ashik@exabyting.com");
+        user.setPassword(PasswordHashing.hashPassword("ashik"));
+        user.setPosition("Software Engineer Trainee");
         user.setEmploymentStatus("Permanent");
         user.setGender("Male");
-        Team team = new Team();
-        team.setTeamName("GGWP");
+
+        TeamDao team = new TeamDao(sessionFactory);
+        Team teamById = team.getTeamById(1);
+
+        RoleDao roleDao = new RoleDao(sessionFactory);
+        Role roleById = roleDao.getRoleById(AppConstant.roleId);
+
+        Role role = new Role();
+        role.setRoleName("Normal");
+        user.setTeam(teamById);
+        user.getRoles().add(roleById);
         UserDao userDao  = new UserDao(sessionFactory);
         User user1 = userDao.createUser(user);
         System.out.println(user1 +"id "+ user1.getId() + " "+ user1.getTeam()+" "+ user1.getRoles());
@@ -39,36 +49,35 @@ public class UserDaoTest extends TestCase {
     }
 
     public void testUpdateUser(){
-        User user = new User();
-        user.setId(2);
-        user.setEmployeeId(UUID.randomUUID().toString());
         UserDao userDao  = new UserDao(sessionFactory);
-        User user1 = userDao.updateUser(user);
+        User user = new User();
+        User userById = userDao.getUserById(AppConstant.userId);
+        Role role = new Role();
+        role.setRoleName(AppConstant.adminRole);
+        userById.getRoles().add(role);
+        User user1 = userDao.updateUser(userById);
         assertNotNull(user1);
 
     }
 
 
     public void testGetUserById(){
-        testCreateUser();
-        testUpdateUser();
         UserDao userDao = new UserDao(sessionFactory);
-        User userById = userDao.getUserById(1);
+        User userById = userDao.getUserById(AppConstant.userId);
         assertNotNull(userById);
     }
 
     public void testDeleteUserById(){
-        testCreateUser();
-        testUpdateUser();
+
         UserDao userDao = new UserDao(sessionFactory);
-        boolean b = userDao.deleteUser(1);
+        boolean b = userDao.deleteUser(AppConstant.userId);
         assertTrue(true);
     }
 
     public void testUserByEmail(){
         testCreateUser();
         UserDao userDao = new UserDao(sessionFactory);
-        User byEmail = userDao.findByEmail("ashik@exabyting.com");
+        User byEmail = userDao.findByEmail(AppConstant.userEmail);
         assertNotNull(byEmail);
     }
 

@@ -1,6 +1,7 @@
 package org.example.Dao;
 
 import junit.framework.TestCase;
+import org.example.AppConstant;
 import org.example.Entities.Team;
 import org.example.Entities.User;
 import org.example.util.HibernateUtils;
@@ -24,11 +25,13 @@ public class TeamDaoTest extends TestCase {
     }
 
     public void testTeamUpdate(){
-        Team team = new Team();
-        team.setId(1);
-        team.setTeamName("GGWP1");
+
         TeamDao teamDao = new TeamDao(sessionFactory);
-        Team team1 = teamDao.updateTeam(team);
+        UserDao userDao = new UserDao(sessionFactory);
+        Team teamById = teamDao.getTeamById(AppConstant.teamId);
+        User userById = userDao.getUserById(AppConstant.userId);
+        teamById.setTeamLead(userById);
+        Team team1 = teamDao.updateTeam(teamById);
         assertNotNull(team1);
     }
 
@@ -36,14 +39,14 @@ public class TeamDaoTest extends TestCase {
         testTeamCreate();
         testTeamUpdate();
         TeamDao teamDao = new TeamDao(sessionFactory);
-        Team team = teamDao.getTeamById(1);
+        Team team = teamDao.getTeamById(AppConstant.teamId);
         assertNotNull(team);
     }
 
     public void testDeleteTeam(){
         testTeamCreate();
         TeamDao teamDao = new TeamDao(sessionFactory);
-        boolean b = teamDao.deleteTeam(1);
+        boolean b = teamDao.deleteTeam(AppConstant.teamId);
         assertTrue(true);
     }
 

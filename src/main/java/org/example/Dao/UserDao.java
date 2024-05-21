@@ -22,7 +22,7 @@ public class UserDao {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            session.persist(user);
+            session.saveOrUpdate(user);
             transaction.commit();
             session.close();
             return user;
